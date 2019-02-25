@@ -1,11 +1,3 @@
-//
-//  UsersViewController.swift
-//  AlumniCev
-//
-//  Created by Daniel Plata on 22/1/18.
-//  Copyright © 2018 Victor Serrano. All rights reserved.
-//
-
 import UIKit
 import NVActivityIndicatorView
 import Alamofire
@@ -92,7 +84,7 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
             }
         case "groups":
             if groups != nil{
-                let users:[Dictionary<String,Any>] = groups[section]["users"] as! [Dictionary<String, Any>]
+               let users:[Dictionary<String,Any>] = groups[section]["users"] as! [Dictionary<String, Any>]
                 return users.count
             }else{
                 return 0

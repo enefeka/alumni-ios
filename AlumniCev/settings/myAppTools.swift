@@ -1,11 +1,3 @@
-//
-//  myAppTools.swift
-//  AlumniCev
-//
-//  Created by alumnos on 9/1/18.
-//  Copyright © 2018 Victor Serrano. All rights reserved.
-//
-
 import Foundation
 import UIKit
 
@@ -99,8 +91,11 @@ func isValidPhone(phone: String) -> Bool {
     return NSPredicate(format: "SELF MATCHES %@", "\\d{9}").evaluate(with: phone)
     
 }
-let URL_GENERAL = "http://h2744356.stratoserver.net/solfamidas/alumniCEV/public/index.php/"
+let URL_LOC = "http://localhost:8888/ProyectoAlumni/public/api/"
+let URL_DEV = "http://192.168.6.167/alumni/public/index.php/api/"
+let URL_PROD = "http://alumni.vanadis.es/alumni/public/index.php/api/"
 
+let ACTIVEURL = URL_LOC
 func hexStringToUIColor (hex:String) -> UIColor {
     var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
     

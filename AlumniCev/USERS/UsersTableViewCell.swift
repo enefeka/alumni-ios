@@ -1,11 +1,3 @@
-//
-//  UsersTableViewCell.swift
-//  AlumniCev
-//
-//  Created by Daniel Plata on 7/2/18.
-//  Copyright © 2018 Victor Serrano. All rights reserved.
-//
-
 import UIKit
 
 class UsersTableViewCell: UITableViewCell {

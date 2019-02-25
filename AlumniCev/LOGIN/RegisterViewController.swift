@@ -1,11 +1,3 @@
- //
- //  RegisterViewController.swift
- //  AlumniCev
- //
- //  Created by alumnos on 9/1/18.
- //  Copyright © 2018 Victor Serrano. All rights reserved.
- //
- 
  import UIKit
  import Alamofire
  import CPAlertViewController
@@ -164,14 +156,13 @@
     
     func createRegisterRequest(email:String, password:String){
         
-        //let url = URL(string: URL_GENERAL + "users/create.json")
-        let url = "http://localhost:8888/alumniCEV-master/public/users/create.json"
+        let url = URL(string: ACTIVEURL + "register")
         
         let parameters : Parameters = ["email":email,"password":password]
         
         SwiftSpinner.show("...")
         
-        Alamofire.request(url, method: .post, parameters: parameters).responseJSON{response in
+        Alamofire.request(url!, method: .post, parameters: parameters).responseJSON{response in
             
             var arrayResult = response.result.value as! Dictionary<String, Any>
             let alert = CPAlertViewController()
@@ -211,13 +202,12 @@
      : returns:
      */
     func createLoginRequest(email:String, password:String){
-        
-        //let url = URL(string: URL_GENERAL + "users/login.json")
-        let url = "http://localhost:8888/alumniCEV-master/public/users/login.json"
+
+        let url = URL(string: ACTIVEURL + "login")
         
         let parameters: Parameters = ["email":email,"password":password, "lon": self.lon , "lat": self.lat]
         
-        Alamofire.request(url, method: .post, parameters: parameters).responseJSON{response in
+        Alamofire.request(url!, method: .post, parameters: parameters).responseJSON{response in
             
             var arrayResult = response.result.value as! Dictionary<String, Any>
             let alert = CPAlertViewController()
@@ -228,7 +218,13 @@
                 case 200:
                     var arrayData = arrayResult["data"] as! Dictionary<String,Any>
                     var arrayUser = arrayData["user"] as! Dictionary<String,Any>
-                    var arrayPrivacity = arrayData["privacity"] as! Dictionary<String,String>
+                    var arrayPrivacity = arrayData["privacity"] as! Dictionary<String,Any>
+                    print("------------------------------------")
+                    print(arrayData);
+                    print("------------------------------------")
+                    print(arrayUser);
+                    print("------------------------------------")
+                    print(arrayPrivacity);
                     
                     SwiftSpinner.hide()
                     
@@ -237,14 +233,17 @@
                     
                     // Create an action with a completionl handler.
                     let okAction = JHTAlertAction(title: "OK", style: .default, bgColor: cevColor) { _ in
-                        saveDataInUserDefaults(value: arrayUser["id"] as! String, key: "id")
-                        saveDataInUserDefaults(value: arrayUser["id_rol"] as! String, key: "id_rol")
+                        let idReceived = String((arrayUser["id"] as! NSNumber).intValue)
+                        saveDataInUserDefaults(value: idReceived, key: "id")
+                        let idRolReceived = String((arrayUser["id_rol"] as! NSNumber).intValue)
+                        saveDataInUserDefaults(value: idRolReceived, key: "id_rol")
                         saveDataInUserDefaults(value: arrayUser["email"] as! String, key: "email")
                         saveDataInUserDefaults(value: arrayUser["password"] as! String, key: "password")
                         saveDataInUserDefaults(value: arrayUser["name"] as! String, key: "name")
                         saveDataInUserDefaults(value: arrayData["token"] as! String, key: "token")
                         saveDataInUserDefaults(value: arrayUser["username"] as! String, key: "username")
-                        saveDataInUserDefaults(value: arrayPrivacity["localization"] as! String,key: "localizationprivacity")
+                        let localizationReceived = String((arrayPrivacity["id"] as! NSNumber).intValue)
+                        saveDataInUserDefaults(value: localizationReceived,key: "localizationprivacity")
                         
                         if !(arrayUser["description"] is NSNull)  {
                             saveDataInUserDefaults(value: arrayUser["description"]! as! String, key: "description")

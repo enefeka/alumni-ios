@@ -1,18 +1,10 @@
-//
-//  GetEventsRequest.swift
-//  AlumniCev
-//
-//  Created by alumnos on 25/1/18.
-//  Copyright © 2018 Victor Serrano. All rights reserved.
-//
-
 import Foundation
 import Alamofire
 import CPAlertViewController
 
 func requestDeleteEvent(id:Int, action: @escaping ()->()){
     
-    let url = URL(string: URL_GENERAL + "events/delete.json")
+    let url = URL(string: ACTIVEURL + "deleteevent")
     let parameters: Parameters = ["id":id]
     let token = getDataInUserDefaults(key:"token")
     let headers: HTTPHeaders = [
@@ -53,9 +45,7 @@ func requestDeleteEvent(id:Int, action: @escaping ()->()){
 
 func createEventRequest(title:String, description:String, idType:Int, idGroup:[Int], controller:UIViewController, lat:Float?, lon:Float?, image:Data?, urlEvent:String?){
     
-    //let url = URL(string: URL_GENERAL + "events/create.json")
-    let url = "http://192.168.6.167/ProyectoAlumni/public/index.php/api/createevent"
-    
+    let url = URL(string: ACTIVEURL + "createevent")
     var parameters: Parameters = ["title": title, "description": description, "id_type":idType]
     
     if lat != nil && lon != nil{
@@ -93,7 +83,7 @@ func createEventRequest(title:String, description:String, idType:Int, idGroup:[I
         
     },
                      
-                     to: url,
+                     to: url!,
                      headers:headers,
                      
                      encodingCompletion: { encodingResult in
@@ -108,14 +98,12 @@ func createEventRequest(title:String, description:String, idType:Int, idGroup:[I
                                     var arrayResult = response.result.value as! Dictionary<String, Any>
                                     
                                     if let result = response.result.value {
-                                        
-                                        print(result)
-                                        
+
                                         let code = arrayResult["code"] as! Int
                                         
                                         switch code{
                                         case 200:
-                                            events = arrayResult["data"] as! [[String:Any]]
+//                                            events = arrayResult["data"] as! [[String:Any]]
                                             
                                             (controller as! LocalizationCreateEventViewController).createAlert(type:"success", title:"eventCreated".localized(), message: "eventCreatedSuccess".localized())
                                         case 400:
@@ -139,9 +127,9 @@ func createEventRequest(title:String, description:String, idType:Int, idGroup:[I
 }
 
 func requestEvents(type:Int, action: @escaping ()->(), notResults: @escaping ()->()){
-    //let url = URL(string: URL_GENERAL + "events/events.json")
-    let url = "http://192.168.6.167/ProyectoAlumni/public/index.php/api/listevents"
-    
+
+
+    let url = URL(string: ACTIVEURL + "listevents")
     let parameters: Parameters = ["type":type]
     
     let token = getDataInUserDefaults(key:"token")
@@ -151,7 +139,7 @@ func requestEvents(type:Int, action: @escaping ()->(), notResults: @escaping ()-
         "Accept": "application/json"
     ]
     
-    Alamofire.request(url, method: .get, parameters: parameters, headers: headers).responseJSON{response in
+    Alamofire.request(url!, method: .get, parameters: parameters, headers: headers).responseJSON{response in
         
         if (response.result.value != nil){
             
@@ -190,8 +178,10 @@ func requestEvents(type:Int, action: @escaping ()->(), notResults: @escaping ()-
 }
 
 func requestEvent(id:Int, action: @escaping () -> ()){
-    //let url = URL(string: URL_GENERAL + "events/event.json")
-    let url = "http://192.168.6.167/ProyectoAlumni/public/index.php/api/eventdata"
+
+
+    let url = URL(string: ACTIVEURL + "eventdata")
+
     
     let parameters: Parameters = ["id":id]
     
@@ -202,7 +192,7 @@ func requestEvent(id:Int, action: @escaping () -> ()){
         "Accept": "application/json"
     ]
     
-    Alamofire.request(url, method: .get, parameters: parameters, headers: headers).responseJSON{response in
+    Alamofire.request(url!, method: .get, parameters: parameters, headers: headers).responseJSON{response in
         
         if (response.result.value != nil){
             
@@ -230,7 +220,8 @@ func requestEvent(id:Int, action: @escaping () -> ()){
 }
 
 func requestFindEvents(search:String, type:Int, controller:UIViewController){
-    let url = URL(string: URL_GENERAL + "events/find.json")
+
+    let url = URL(string: ACTIVEURL + "searchevent")
     
     let parameters: Parameters = ["search":search, "type":type]
     

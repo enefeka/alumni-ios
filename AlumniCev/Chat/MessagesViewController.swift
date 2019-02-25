@@ -1,11 +1,3 @@
-//
-//  MessagesViewController.swift
-//  AlumniCev
-//
-//  Created by raul on 13/3/18.
-//  Copyright © 2018 Victor Serrano. All rights reserved.
-//
-
 import UIKit
 import Alamofire
 

@@ -1,11 +1,3 @@
-//
-//  TabBarViewController.swift
-//  AlumniCev
-//
-//  Created by alumnos on 7/3/18.
-//  Copyright © 2018 Victor Serrano. All rights reserved.
-//
-
 import UIKit
 
 class TabBarViewController: UITabBarController {

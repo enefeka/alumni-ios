@@ -1,11 +1,3 @@
-//
-//  WebUrlViewController.swift
-//  AlumniCev
-//
-//  Created by alumnos on 1/2/18.
-//  Copyright © 2018 Victor Serrano. All rights reserved.
-//
-
 import UIKit
 import CPAlertViewController
 

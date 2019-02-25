@@ -1,11 +1,3 @@
-//
-//  CellChatsTableViewCell.swift
-//  AlumniCev
-//
-//  Created by raul on 15/3/18.
-//  Copyright © 2018 Victor Serrano. All rights reserved.
-//
-
 import UIKit
 
 class CellChatsTableViewCell: UITableViewCell {

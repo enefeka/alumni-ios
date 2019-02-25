@@ -1,11 +1,3 @@
-//
-//  ChatViewController.swift
-//  AlumniCev
-//
-//  Created by Daniel Plata on 20/2/18.
-//  Copyright © 2018 Victor Serrano. All rights reserved.
-//
-
 import UIKit
 
 class ChatViewController: UIViewController {

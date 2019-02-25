@@ -1,11 +1,3 @@
-//
-//  AlumniCevTests.swift
-//  AlumniCevTests
-//
-//  Created by Victor Serrano on 8/1/18.
-//  Copyright © 2018 Victor Serrano. All rights reserved.
-//
-
 import XCTest
 @testable import AlumniCev
 

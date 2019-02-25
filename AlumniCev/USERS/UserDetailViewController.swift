@@ -1,11 +1,3 @@
-//
-//  UserDetailViewController.swift
-//  AlumniCev
-//
-//  Created by Daniel Plata on 7/2/18.
-//  Copyright © 2018 Victor Serrano. All rights reserved.
-//
-
 import UIKit
 import Alamofire
 import MessageUI
@@ -46,11 +38,12 @@ class UserDetailViewController: UIViewController, MFMailComposeViewControllerDel
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let idCasted = (user?["id"] as! NSNumber).intValue
         // change friendship button title
         self.addFriendsBtn.layer.cornerRadius = addFriendsBtn.bounds.size.height/2
         self.setBtn()
         //remove user by id
-        requestUserById(id: Int(user?["id"] as! String)!) {
+        requestUserById(id: idCasted) {
             //Privacy
             if self.user?["phone"] as? String != nil && privacityUser!["phone"] == "1"{
                 self.phoneLB.text = self.user?["phone"] as? String
@@ -135,17 +128,24 @@ class UserDetailViewController: UIViewController, MFMailComposeViewControllerDel
     */
     
     func setBtn(){
-        requestUserById(id: Int(user?["id"] as! String)!){
+        let idCasted = (user?["id"] as! NSNumber).intValue
+        requestUserById(id: idCasted){
             if friend != nil
             {
-                if Int(friend!["state"] as! String) == 2
+                let idCasted = (friend!["state"] as! NSNumber).intValue
+                print(idCasted)
+
+                if idCasted == 2
                 {
                     self.addFriendsBtn.setTitle("Eliminar amistad", for: .normal)
                     self.addFriendsBtn.backgroundColor = UIColor(named: "Orange")
                     //addFriendsBtn.backgroundColor = UIColor(displayP3Red: 241, green: 90, blue: 36, alpha: 1)
                 }else
                 {
-                    if friend!["id_user_send"] as? Int == Int((self.user?["id"] as? String)!)
+                    
+                    let sendCasted = (friend!["id_user_send"] as! NSNumber).intValue
+                
+                    if sendCasted == idCasted
                     {
                         self.addFriendsBtn.setTitle("Aceptar petición", for: .normal)
                         self.addFriendsBtn.backgroundColor = UIColor(named: "Turques")
@@ -180,15 +180,15 @@ class UserDetailViewController: UIViewController, MFMailComposeViewControllerDel
     : param:
     : returns:
     */
-    
+
     @IBAction func addFriend(_ sender: Any) {
         
-        //addFriendsBtn.isEnabled = false
-        let idNewFriend = user?["id"] as! String
+        let idNewFriend = String(describing: user?["id"])
+        let idCasted = (user?["id"] as! NSNumber).intValue
         if friend == nil
         {
             //If there is no request created, a new one is created
-            sendRequestFriend(id_user: Int(idNewFriend)!) {message,code in
+            sendRequestFriend(id_user: idCasted) {message,code in
                 // actualizar boton
                 self.setBtn()
                 self.showAlert(message: message)
@@ -196,13 +196,14 @@ class UserDetailViewController: UIViewController, MFMailComposeViewControllerDel
         }else
         {
             //If there is a request and it is in 2 (friend) it is deleted from friend (delete request)
-            if friend!["state"] as! String == "2" {
+
+            if String(describing: friend!["state"]) == "2" {
                 //Remove friendship
                 print(idNewFriend)
                 let alert = UIAlertController(title: "Borrar amigo", message: "¿Seguro que quieres dejar de ser amigo?", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: nil))
                 alert.addAction(UIAlertAction(title: "Borrar", style: .destructive, handler: { (nil) in
-                    requestDeleteFriend(id_user: Int(idNewFriend)!)
+                    requestDeleteFriend(id_user: idCasted)
                     {message,code in
                         self.setBtn()
                         self.showAlert(message: message)
@@ -219,16 +220,17 @@ class UserDetailViewController: UIViewController, MFMailComposeViewControllerDel
                 //If it is in 1 (pending request)
                 
                 //Accept request if the sender is the user of the detail
-                if friend!["id_user_send"] as? Int == Int((user?["id"] as? String)!)
+                let sendCasted = (friend!["id_user_send"] as! NSNumber).intValue
+                if sendCasted == idCasted
                 {
-                    requestResponseFriend(id_user: Int(idNewFriend)!, type: 2){message,code in
+                    requestResponseFriend(id_user: idCasted, type: 2){message,code in
                         self.setBtn()
                         self.showAlert(message: message)
                     }
                 }else
                 {
                     //Cancel request sent, because it has been sent by the logged in user
-                    requestCancelRequest(id_user: Int(idNewFriend)!){message,code in
+                    requestCancelRequest(id_user: idCasted){message,code in
                         //Update button
                         self.setBtn()
                         self.showAlert(message: message)

@@ -1,17 +1,9 @@
-//
-//  chatRequests.swift
-//  AlumniCev
-//
-//  Created by raul on 13/3/18.
-//  Copyright © 2018 Victor Serrano. All rights reserved.
-//
-
 import Foundation
 import Alamofire
 
 func messagesRequest(id_chat:String?, action: @escaping (_ messages:[Dictionary<String,Any>]?)->()){
     
-    let url = URL(string: URL_GENERAL + "chat/messages.json")
+    let url = URL(string: ACTIVEURL + "messages")
     let parameters: Parameters = ["id_chat":id_chat!]
     let token = getDataInUserDefaults(key:"token")
     let headers: HTTPHeaders = [
@@ -45,7 +37,7 @@ func messagesRequest(id_chat:String?, action: @escaping (_ messages:[Dictionary<
 
 func sendMessageRequest(id_chat:String,description:String, action: @escaping (_ message:String)->()){
     
-    let url = URL(string: URL_GENERAL + "chat/sendMessage.json")
+    let url = URL(string: ACTIVEURL + "sendmessage")
     let parameters: Parameters = ["id_chat":id_chat,"description":description]
     let token = getDataInUserDefaults(key:"token")
     let headers: HTTPHeaders = [
@@ -71,7 +63,7 @@ func sendMessageRequest(id_chat:String,description:String, action: @escaping (_ 
 
 func getUsersToChat(action: @escaping (_ messages:[Dictionary<String,Any>]?)->()){
     
-    let url = URL(string: URL_GENERAL + "chat/userstochat.json")
+    let url = URL(string: ACTIVEURL + "userstochat")
 //    let parameters: Parameters = ["id_chat":id_chat]
     let token = getDataInUserDefaults(key:"token")
     let headers: HTTPHeaders = [
@@ -114,7 +106,7 @@ func getUsersToChat(action: @escaping (_ messages:[Dictionary<String,Any>]?)->()
 
 func createChatRequesst(id_user:String, action: @escaping (_ message:Dictionary<String,Any>)->()){
     
-    let url = URL(string: URL_GENERAL + "chat/create.json")
+    let url = URL(string: ACTIVEURL + "createchat")
     let parameters: Parameters = ["id_user":id_user]
     let token = getDataInUserDefaults(key:"token")
     let headers: HTTPHeaders = [
@@ -143,7 +135,7 @@ func createChatRequesst(id_user:String, action: @escaping (_ message:Dictionary<
 
 func getChatsRequest(action: @escaping (_ messages:[Dictionary<String,Any>]?)->()){
     
-    let url = URL(string: URL_GENERAL + "chat/chats.json")
+    let url = URL(string: ACTIVEURL + "chats")
     let token = getDataInUserDefaults(key:"token")
     let headers: HTTPHeaders = [
         "Authorization": token!,

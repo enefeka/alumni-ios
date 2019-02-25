@@ -1,11 +1,3 @@
-//
-//  RecoverViewController.swift
-//  AlumniCev
-//
-//  Created by alumnos on 17/1/18.
-//  Copyright © 2018 Victor Serrano. All rights reserved.
-//
-
 import UIKit
 import Alamofire
 import CPAlertViewController
@@ -111,7 +103,7 @@ class RecoverViewController: UIViewController {
                 
                 if password.count > 4 && password.count < 13{
                     let password = passwordTextField.text!
-                    let url = URL(string: URL_GENERAL + "users/recoverPassword.json")
+                    let url = URL(string: ACTIVEURL + "recover")
                     
                     let parameters: Parameters = ["password":password, "id": id!]
                     

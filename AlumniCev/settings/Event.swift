@@ -1,11 +1,3 @@
-//
-//  Event.swift
-//  AlumniCev
-//
-//  Created by alumnos on 26/1/18.
-//  Copyright © 2018 Victor Serrano. All rights reserved.
-//
-
 import Foundation
 
 class Event{

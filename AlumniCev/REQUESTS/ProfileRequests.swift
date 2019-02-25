@@ -1,16 +1,8 @@
-//
-//  ProfileRequests.swift
-//  AlumniCev
-//
-//  Created by alumnos on 9/2/18.
-//  Copyright © 2018 Victor Serrano. All rights reserved.
-//
-
 import Foundation
 import Alamofire
 
 func requestProfile(){
-    let user = URL(string: URL_GENERAL + "users/userbyid.json")
+    let user = URL(string: ACTIVEURL + "userbyid")
     let id = getDataInUserDefaults(key:"id")
     let token = getDataInUserDefaults(key:"token")
     

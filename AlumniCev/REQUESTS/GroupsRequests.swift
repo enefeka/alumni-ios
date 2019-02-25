@@ -1,18 +1,10 @@
-//
-//  GroupsRequests.swift
-//  AlumniCev
-//
-//  Created by alumnos on 26/1/18.
-//  Copyright © 2018 Victor Serrano. All rights reserved.
-//
-
 import Foundation
 import Alamofire
 
 func requestTypes(controller:UIViewController){
-    //let url = URL(string: URL_GENERAL + "events/types.json")
-    let url = "http://192.168.6.167/ProyectoAlumni/public/index.php/api/listtypes"
 
+
+    let url = URL(string: ACTIVEURL + "listtypes")
     let token = getDataInUserDefaults(key:"token")
     
     let headers: HTTPHeaders = [
@@ -20,7 +12,7 @@ func requestTypes(controller:UIViewController){
         "Accept": "application/json"
     ]
     
-    Alamofire.request(url, method: .get, headers: headers).responseJSON{response in
+    Alamofire.request(url!, method: .get, headers: headers).responseJSON{response in
         
         if (response.result.value != nil){
         
@@ -48,9 +40,8 @@ func requestTypes(controller:UIViewController){
 }
 
 func requestGroups(action: @escaping ()->()){
-   // let url = URL(string: URL_GENERAL + "groups/groups.json")
-     let url = "http://192.168.6.167/ProyectoAlumni/public/index.php/api/listgroups"
-    
+
+    let url = URL(string: ACTIVEURL + "listgroups")
     let token = getDataInUserDefaults(key:"token")
     
     let headers: HTTPHeaders = [
@@ -58,7 +49,7 @@ func requestGroups(action: @escaping ()->()){
         "Accept": "application/json"
     ]
     
-    Alamofire.request(url, method: .get, headers: headers).responseJSON{response in
+    Alamofire.request(url!, method: .get, headers: headers).responseJSON{response in
         
         if (response.result.value != nil){
             
@@ -91,7 +82,12 @@ func requestGroups(action: @escaping ()->()){
 }
 
 func requestGroupsbyUser (action: @escaping ()->()){
-    let url = URL(string: URL_GENERAL + "groups/groupsbyuser.json")
+
+    let url = URL(string: ACTIVEURL + "groupsuserclient")
+    let id_user = getDataInUserDefaults(key: "id")!
+    let parameters: Parameters = ["id_user":id_user]
+    print("holi!!!!")
+    print(id_user)
     
     let token = getDataInUserDefaults(key:"token")
     
@@ -100,12 +96,21 @@ func requestGroupsbyUser (action: @escaping ()->()){
         "Accept": "application/json"
     ]
     
-    Alamofire.request(url!, method: .get, headers: headers).responseJSON{response in
+    Alamofire.request(url!, method: .get, parameters: parameters, headers: headers).responseJSON{response in
         
         if (response.result.value != nil){
             
             var arrayResult = response.result.value as! Dictionary<String, Any>
+            print("holiiii")
+            print(arrayResult)
+            print("chaoooooo")
+
             var arrayData = arrayResult["data"]! as! Dictionary<String,Any>
+            
+            print(arrayData)
+            print("holi22222222222")
+            print(arrayData["groups"])
+            print("chao222222222")
             
             switch response.result {
             case .success:

@@ -1,11 +1,3 @@
-//
-//  ChatsViewController.swift
-//  AlumniCev
-//
-//  Created by alumnos on 12/3/18.
-//  Copyright © 2018 Victor Serrano. All rights reserved.
-//
-
 import UIKit
 import Alamofire
 

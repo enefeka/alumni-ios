@@ -1,11 +1,3 @@
-//
-//  ForgotViewController.swift
-//  AlumniCev
-//
-//  Created by alumnos on 17/1/18.
-//  Copyright © 2018 Victor Serrano. All rights reserved.
-//
-
 import UIKit
 import CPAlertViewController
 import Alamofire
@@ -103,7 +95,7 @@ class ForgotViewController: UIViewController {
         if emailTextField.text != ""{
         
             if isValidEmail(YourEMailAddress: emailTextField.text!){
-                let url = URL(string: URL_GENERAL + "users/validateEmail.json")
+                let url = URL(string: ACTIVEURL + "users/validateEmail.json")
                 
                 let parameters : Parameters = ["email":emailTextField.text!]
                 

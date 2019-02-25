@@ -1,11 +1,3 @@
-//
-//  DetailEventViewController.swift
-//  AlumniCev
-//
-//  Created by alumnos on 23/1/18.
-//  Copyright © 2018 Victor Serrano. All rights reserved.
-//
-
 import UIKit
 import Alamofire
 import CPAlertViewController
@@ -44,6 +36,7 @@ class DetailEventViewController: UIViewController{
     
     var lat:Float?
     var lon:Float?
+    let holi2 = Int(getDataInUserDefaults(key: "token")!)
     
     
     //remove image viewer
@@ -67,6 +60,8 @@ class DetailEventViewController: UIViewController{
         idReceived = globalidReceived!
         let id = Int(getDataInUserDefaults(key: "id")!)
         let id_rol = Int(getDataInUserDefaults(key: "id_rol")!)
+
+
         
         self.dateComment.isHidden = true
         
@@ -88,6 +83,10 @@ class DetailEventViewController: UIViewController{
         
         print("sacando el id disponible")
         print(events[idReceived]["id"]!)
+        print("holi")
+        print(id)
+        print(id_rol)
+        print(holi2)
         
         let idCasted = (events[idReceived]["id"] as! NSNumber).intValue
         requestEvent(id: idCasted) {
@@ -459,11 +458,11 @@ class DetailEventViewController: UIViewController{
     : returns:
     */
     @IBAction func deleteEventAction(_ sender: Any) {
-        
+        let idCasted = (events[idReceived]["id"] as! NSNumber).intValue
         let alert = UIAlertController(title: "deleteEvent".localized(), message: "sureDeleteEvent".localized(), preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "delete".localized(), style: .destructive, handler: { (nil) in
-            requestDeleteEvent(id: Int(events[self.idReceived]["id"] as! String)!){
+            requestDeleteEvent(id: idCasted){
                 //self.dismiss(animated: true, completion: nil)
                 self.navigationController?.popViewController(animated: true)
             }

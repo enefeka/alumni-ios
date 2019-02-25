@@ -1,18 +1,10 @@
-//
-//  UsersRequests.swift
-//  AlumniCev
-//
-//  Created by alumnos on 6/2/18.
-//  Copyright © 2018 Victor Serrano. All rights reserved.
-//
-
 import Foundation
 import Alamofire
 
 
 func requestAllUsers(action: @escaping ()->()){
-    //let url = URL(string: URL_GENERAL + "users/allusersapp.json")
-    let url = "http://192.168.6.167/ProyectoAlumni/public/index.php/api/listusers"
+
+    let url = URL(string: ACTIVEURL + "listusers")
     
     let token = getDataInUserDefaults(key:"token")
     
@@ -21,7 +13,7 @@ func requestAllUsers(action: @escaping ()->()){
         "Accept": "application/json"
     ]
     
-    Alamofire.request(url, method: .get, headers: headers).responseJSON{response in
+    Alamofire.request(url!, method: .get, headers: headers).responseJSON{response in
         
         if (response.result.value != nil){
             
@@ -38,7 +30,7 @@ func requestAllUsers(action: @escaping ()->()){
                     action()
                 default:
                     break
-                    print(arrayResult["message"] as! String)
+
                 }
             case .failure:
                 
@@ -50,8 +42,8 @@ func requestAllUsers(action: @escaping ()->()){
 }
 
 func requestFriends(action: @escaping ()->()){
-    let url = URL(string: URL_GENERAL + "users/friends.json")
-    
+
+    let url = URL(string: ACTIVEURL + "listfriends")
     let token = getDataInUserDefaults(key:"token")
     
     let headers: HTTPHeaders = [
@@ -86,7 +78,8 @@ func requestFriends(action: @escaping ()->()){
 }
 
 func requestUserById(id:Int, action: @escaping ()->()){
-    let url = URL(string: URL_GENERAL + "users/userbyid.json")
+
+    let url = URL(string: ACTIVEURL + "userbyid")
     let token = getDataInUserDefaults(key:"token")
     let parameters:Parameters = ["id":id]
     let headers: HTTPHeaders = [
@@ -117,8 +110,8 @@ func requestUserById(id:Int, action: @escaping ()->()){
 }
 
 func requestRequests(action: @escaping ()->(), notRequests: @escaping ()->()){
-    let url = URL(string: URL_GENERAL + "users/requests.json")
-    
+
+    let url = URL(string: ACTIVEURL + "requests")
     let token = getDataInUserDefaults(key:"token")
     
     let headers: HTTPHeaders = [
@@ -155,7 +148,8 @@ func requestRequests(action: @escaping ()->(), notRequests: @escaping ()->()){
 
 func requestChangePassword(lastPassword:String, password:String, action: @escaping ()->(), fail: @escaping ()->()){
     
-    let url = URL(string: URL_GENERAL + "users/changepassword.json")
+
+    let url = URL(string: ACTIVEURL + "changepassword")
     
     let token = getDataInUserDefaults(key:"token")
     
@@ -193,7 +187,8 @@ func requestChangePassword(lastPassword:String, password:String, action: @escapi
 }
 
 func sendRequestFriend(id_user:Int, action: @escaping (_ message:String, _ code:Int)->()){
-    let url = URL(string: URL_GENERAL + "users/sendRequest.json")
+
+    let url = URL(string: ACTIVEURL + "sendrequest")
     
     let token = getDataInUserDefaults(key:"token")
     
@@ -225,7 +220,8 @@ func sendRequestFriend(id_user:Int, action: @escaping (_ message:String, _ code:
 }
 
 func requestResponseFriend(id_user:Int, type:Int, action:@escaping (_ message:String, _ code:Int)->()){
-    let url = URL(string: URL_GENERAL + "users/responseRequest.json")
+
+    let url = URL(string: ACTIVEURL + "responserequest")
     
     let token = getDataInUserDefaults(key:"token")
     
@@ -258,11 +254,11 @@ func requestResponseFriend(id_user:Int, type:Int, action:@escaping (_ message:St
 }
 
 func requestFindUser(search:String, action: @escaping ()->(), notusers:@escaping ()->()){
-    let url = URL(string: URL_GENERAL + "users/user.json")
+    let url = URL(string: ACTIVEURL + "finduser")
     
     let token = getDataInUserDefaults(key:"token")
     
-    let parameters:Parameters = ["username":search]
+    let parameters:Parameters = ["search":search]
     
     let headers: HTTPHeaders = [
         "Authorization": token!,
@@ -277,7 +273,8 @@ func requestFindUser(search:String, action: @escaping ()->(), notusers:@escaping
             
             switch response.result {
             case .success:
-                switch arrayResult["code"] as! Int{
+                let idCasted = (arrayResult["code"] as! NSNumber).intValue
+                switch idCasted {
                 case 200:
                     
                     users = arrayResult["data"] as? [[String:Any]]
@@ -298,7 +295,7 @@ func requestFindUser(search:String, action: @escaping ()->(), notusers:@escaping
 }
 
 func requestFindFriends(search:String, action: @escaping ()->(), notusers:@escaping ()->()){
-    let url = URL(string: URL_GENERAL + "users/find_friend.json")
+    let url = URL(string: ACTIVEURL + "findfriend")
     
     let token = getDataInUserDefaults(key:"token")
     
@@ -337,7 +334,7 @@ func requestFindFriends(search:String, action: @escaping ()->(), notusers:@escap
 }
 
 func requestDeleteFriend(id_user:Int, action: @escaping (_ message:String, _ code:Int)->()){
-    let url = URL(string: URL_GENERAL + "users/deleteFriend.json")
+    let url = URL(string: ACTIVEURL + "deletefriend")
     
     let token = getDataInUserDefaults(key:"token")
     
@@ -372,7 +369,7 @@ func requestDeleteFriend(id_user:Int, action: @escaping (_ message:String, _ cod
 
 func requestCancelRequest(id_user:Int, action: @escaping  (_ message:String, _ code:Int)->()){
     
-    let url = URL(string: URL_GENERAL + "users/cancelRequest.json")
+    let url = URL(string: ACTIVEURL + "cancelrequest")
     let token = getDataInUserDefaults(key:"token")
     let parameters:Parameters = ["id_user":id_user]
     let headers: HTTPHeaders = [
@@ -402,7 +399,7 @@ func requestCancelRequest(id_user:Int, action: @escaping  (_ message:String, _ c
 }
 
 func requestEditUser(id:Int,email:String?, name:String?, phone:String?, birthday:String?, description:String?, photo:Data?, phoneprivacity:Int?, localizationprivacity:Int?, action: @escaping ()->(), fail: @escaping ()->()){
-    let url = URL(string: URL_GENERAL + "users/update.json")
+    let url = URL(string: ACTIVEURL + "updateuser")
     
     var parameters: Parameters = ["id": id]
     
@@ -411,7 +408,7 @@ func requestEditUser(id:Int,email:String?, name:String?, phone:String?, birthday
     }
     
     if name != nil{
-        parameters["name"] = email
+        parameters["name"] = name
     }
     
     if phone != nil{

@@ -1,11 +1,3 @@
-//
-//  DetailCommentsTableViewCell.swift
-//  AlumniCev
-//
-//  Created by Daniel Plata on 1/2/18.
-//  Copyright © 2018 Victor Serrano. All rights reserved.
-//
-
 import UIKit
 
 class DetailCommentsTableViewCell: UITableViewCell {

@@ -1,11 +1,3 @@
-//
-//  Address.swift
-//  AlumniCev
-//
-//  Created by Daniel Plata on 28/1/18.
-//  Copyright © 2018 Victor Serrano. All rights reserved.
-//
-
 import Foundation
 
 class Address{

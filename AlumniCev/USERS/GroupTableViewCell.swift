@@ -1,11 +1,3 @@
-//
-//  GroupTableViewCell.swift
-//  AlumniCev
-//
-//  Created by alumnos on 19/2/18.
-//  Copyright © 2018 Victor Serrano. All rights reserved.
-//
-
 import UIKit
 
 class GroupTableViewCell: UITableViewCell {

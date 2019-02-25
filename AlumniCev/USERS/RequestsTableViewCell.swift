@@ -1,11 +1,3 @@
-//
-//  RequestsTableViewCell.swift
-//  AlumniCev
-//
-//  Created by alumnos on 20/2/18.
-//  Copyright © 2018 Victor Serrano. All rights reserved.
-//
-
 import UIKit
 
 class RequestsTableViewCell: UITableViewCell {

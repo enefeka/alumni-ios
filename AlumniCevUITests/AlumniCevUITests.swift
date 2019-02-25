@@ -1,11 +1,3 @@
-//
-//  AlumniCevUITests.swift
-//  AlumniCevUITests
-//
-//  Created by Victor Serrano on 8/1/18.
-//  Copyright © 2018 Victor Serrano. All rights reserved.
-//
-
 import XCTest
 
 class AlumniCevUITests: XCTestCase {

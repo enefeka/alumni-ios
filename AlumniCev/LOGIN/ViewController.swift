@@ -1,11 +1,3 @@
-//
-//  ViewController.swift
-//  AlumniCev
-//
-//  Created by Victor Serrano on 8/1/18.
-//  Copyright © 2018 Victor Serrano. All rights reserved.
-//
-
 import UIKit
 import Alamofire
 import CoreLocation
@@ -196,12 +188,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
   
     func createLoginRequest(email:String, password:String){
         
-        //let url = URL(string: URL_GENERAL + "users/login.json")
-        
-        let url = "http://192.168.6.167/ProyectoAlumni/public/index.php/api/login"
+        let url = URL(string: ACTIVEURL + "login")
         let parameters: Parameters = ["email":email,"password":password, "lon": self.lon , "lat": self.lat]
         
-        Alamofire.request(url, method: .post, parameters: parameters).responseJSON{response in
+        Alamofire.request(url!, method: .post, parameters: parameters).responseJSON{response in
             
             if (response.result.value != nil)
             {
@@ -216,6 +206,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     case 200:
                         var arrayData = arrayResult["data"] as! Dictionary<String,Any>
                         var arrayUser = arrayData["user"] as! Dictionary<String,Any>
+                        print("HOLIIIIIIII")
+                        print(arrayUser)
+                        print(arrayUser["id"]!)
                         var arrayPrivacity = arrayData["privacity"] as! Dictionary<String,Any>
                         
                         SwiftSpinner.hide()
@@ -226,14 +219,22 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                             alert.showSuccess(title: "correctLogin".localized(), message: "succesLogin".localized(), buttonTitle: "OK", action: nil)
                         }
                         
-                        
-                        saveDataInUserDefaults(value: "\(String(describing: arrayUser["id"]))" , key: "id")
-                        saveDataInUserDefaults(value: "\(String(describing: arrayUser["id_rol"]))" , key: "id_rol")
-                        
-                        saveDataInUserDefaults(value: arrayUser["email"] as! String, key: "email")
-                        saveDataInUserDefaults(value: arrayUser["password"] as! String, key: "password")
-                        saveDataInUserDefaults(value: arrayUser["name"] as! String, key: "name")
-                        saveDataInUserDefaults(value: arrayUser["username"] as! String, key: "username")
+                        let idUser = String(describing: (arrayUser["id"]! as AnyObject))
+                        let rolUser = String(describing: (arrayUser["id_rol"] as AnyObject))
+                        let emailUser = String(describing: (arrayUser["email"] as AnyObject))
+                        let passwordUser = String(describing: (arrayUser["password"] as AnyObject))
+                        let nameUser = String(describing: (arrayUser["name"] as AnyObject))
+                        let userNameUser = String(describing: (arrayUser["username"] as AnyObject))
+
+//
+//                        print("AEIOU")
+//                        print(idUser)
+                        saveDataInUserDefaults(value: idUser, key: "id")
+                        saveDataInUserDefaults(value: rolUser, key: "id_rol")
+                        saveDataInUserDefaults(value: emailUser, key: "email")
+                        saveDataInUserDefaults(value: passwordUser, key: "password")
+                        saveDataInUserDefaults(value: nameUser, key: "name")
+                        saveDataInUserDefaults(value: userNameUser, key: "username")
                         
                         saveDataInUserDefaults(value: "\(String(describing: arrayUser["phone"]))" , key: "phoneprivacity")
                         saveDataInUserDefaults(value: "\(String(describing: arrayUser["localization"]))" , key: "localizationprivacity")
@@ -248,8 +249,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                         }
                         
                         if !(arrayUser["phone"] is NSNull)  {
-                            
-                            saveDataInUserDefaults(value: arrayUser["phone"]! as! String, key: "phone")
+
+                            let castPhone = String(describing: arrayUser["phone"])
+                            print(castPhone)
+                            saveDataInUserDefaults(value: castPhone, key: "phone")
                         }else{
                             clearDataInUserDefaults(key: "phone")
                         }
@@ -287,6 +290,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                         if getDataInUserDefaults(key: "email") != nil {
                             self.emailLoginTextField.text = getDataInUserDefaults(key: "email")
                         }
+                        print("ENTRO AQUIIIIIIII hola")
                         alert.showError(title: ("Error al conectar con el servidor" ), buttonTitle: "OK")
                         
                     default:
@@ -295,6 +299,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                         if getDataInUserDefaults(key: "email") != nil {
                             self.emailLoginTextField.text = getDataInUserDefaults(key: "email")
                         }
+                        print("ENTRO AQUIIIIIIII")
                         alert.showError(title: (arrayResult["message"] as! String), buttonTitle: "OK")
                     }
                 case .failure:

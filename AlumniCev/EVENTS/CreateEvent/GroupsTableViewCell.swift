@@ -1,11 +1,3 @@
-//
-//  GroupsTableViewCell.swift
-//  AlumniCev
-//
-//  Created by alumnos on 25/1/18.
-//  Copyright © 2018 Victor Serrano. All rights reserved.
-//
-
 import UIKit
 import M13Checkbox
 

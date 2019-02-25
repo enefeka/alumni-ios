@@ -1,11 +1,3 @@
-//
-//  MainViewController.swift
-//  AlumniCev
-//
-//  Created by alumnos on 17/1/18.
-//  Copyright © 2018 Victor Serrano. All rights reserved.
-//
-
 import UIKit
 
 class MainViewController: UIViewController {

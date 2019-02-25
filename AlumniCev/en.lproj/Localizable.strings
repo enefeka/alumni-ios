@@ -1,13 +1,3 @@
-/* 
-  Localizable.strings
-  loginTest
-
-  Created by alumnos on 9/10/17.
-  Copyright © 2017 Profe. All rights reserved.
-*/
-
-//LANGUAGES
-
 "en"="English";
 "es"="Español";
 "base"="Base";
