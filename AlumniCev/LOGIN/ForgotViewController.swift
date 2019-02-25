@@ -92,51 +92,22 @@ class ForgotViewController: UIViewController {
         
         let alert = CPAlertViewController()
         
-        if emailTextField.text != ""{
         
-            if isValidEmail(YourEMailAddress: emailTextField.text!){
-                let url = URL(string: ACTIVEURL + "users/validateEmail.json")
+        
+        if emailTextField.text != ""{
+            
+            if isValidEmail(YourEMailAddress: emailTextField.text!) {
                 
-                let parameters : Parameters = ["email":emailTextField.text!]
+                self.recoverRequest(email: emailTextField.text!)
                 
-                SwiftSpinner.show("...")
                 
-                Alamofire.request(url!, method: .get, parameters: parameters).responseJSON{response in
-                    
-                    var arrayResult = response.result.value as! Dictionary<String, Any>
-                    let alert = CPAlertViewController()
-                    
-                    switch response.result {
-                    case .success:
-                        switch arrayResult["code"] as! Int{
-                        case 200:
-                            
-                            SwiftSpinner.hide()
-                            
-                            let vc = self.storyboard?.instantiateViewController(withIdentifier: "RecoverViewController") as! RecoverViewController
-                            //vc.modalTransitionStyle = .flipHorizontal
-                            var arrayData = arrayResult["data"] as! Dictionary<String,Any>
-                            vc.id =  Int( arrayData["id"] as! String)
-                            self.navigationController?.pushViewController(vc, animated: true)
-                            //self.present(vc, animated: true)
-                            
-                        default:
-                            SwiftSpinner.hide()
-                            
-                            alert.showError(title: (arrayResult["message"] as! String), buttonTitle: "OK")
-                        }
-                    case .failure:
-                        SwiftSpinner.hide()
-                        print("Error :: \(String(describing: response.error))")
-                    }
-                    
-                }
-            }else{
-                alert.showError(title: "wrongEmail".localized(), buttonTitle: "OK")
+                
+            }else {
+                alert.showError(title: "Email Incorrecto".localized(), buttonTitle: "OK")
             }
             
         }else{
-            alert.showError(title: "allFieldsRequired".localized(), buttonTitle: "OK")
+            alert.showError(title: "Introduzca un email".localized(), buttonTitle: "OK")
         }
     }
     @IBAction func dismissFunction(_ sender: Any) {
@@ -150,16 +121,38 @@ class ForgotViewController: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
-    
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func recoverRequest(email:String){
+        
+        
+        let url = URL(string: ACTIVEURL + "deleteevent")
+        
+        let parameters : Parameters = ["email":email]
+        
+        SwiftSpinner.show("...")
+        
+        Alamofire.request(url!, method: .post, parameters: parameters).responseJSON{response in
+            
+            var arrayResult = response.result.value as! Dictionary<String, Any>
+            let alert = CPAlertViewController()
+            
+            switch response.result {
+            case .success:
+                switch arrayResult["code"] as! Int{
+                case 200:
+                    //self.alertUser(alertTitle: "Contraseña enviada", alertMessage: "")
+                    break
+                    
+                default:
+                    
+                    SwiftSpinner.hide()
+                    alert.showError(title: (arrayResult["message"] as! String), buttonTitle: "OK")
+                }
+            case .failure:
+                SwiftSpinner.hide()
+            }
+            
+            
+        }
     }
-    */
-
 }
